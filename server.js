@@ -8,13 +8,23 @@ const app = express();
 app.engine("handlebars",handlebars({defaultLayout: 'main'}));
 app.set('view engine','handlebars');
 
-
 //Routs and template 
-app.get("/:id?",(req,res)=>{
+app.get("/",(req,res)=>{
     //res.send("essa é mimha tela inicial!!")
     //res.sendFile(__dirname+"/test.html") reidenizando um arquivo html
    //console.log(req.params.id);pegando e passando parâmetros id?
-    res.render('index',{id:req.params.id});//passando parametros para a pagina 
+    res.render('index');//passando parametros para a pagina 
+
+
+//rotas para icorporar arquivos do front end
+app.get("/script",(req,res)=>{res.sendFile(__dirname+'/js/script.js');});
+app.get("/style",(req,res)=>{ res.sendFile(__dirname+'/css/style.css');});
+
+app.get("/inserir",(req,res)=>{
+    res.render(inserir);
+})
+
+
 
 
     
