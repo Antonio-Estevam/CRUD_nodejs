@@ -1,0 +1,21 @@
+<center>
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Name</td>
+            <td>Age</td>
+            <td>Action</td>
+        </tr>
+        {{#data}}
+        <tr>
+            <td>{{id}}</td>
+            <td>{{name}}</td>
+            <td>{{age}}</td>
+            <td>
+                <a href='update/{{id}}'><img class="iconsBt" src="/views/img/edit.svg" alt="Editar"></a>
+                <a href='deletar/{{id}}' class="deletar"><img class="iconsBt" src="/views/img/trash.svg" alt="Deletar"></a>
+            </td>
+        </tr>
+        {{/data}}
+    </table>
+</center>

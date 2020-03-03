@@ -14,6 +14,10 @@ const sql = mysql.createConnection({
     port:3306,
    // database: 'crudejs'
 });
+    //liberando diretorio img para usar os arquivos  
+app.use('/views/img',express.static('img'));
+app.use('/css',express.static('css'));
+app.use('/js',express.static('js'));
     //query mysql usar a tabela nodejs 
 sql.query("use crudejs");
 
@@ -30,10 +34,23 @@ app.get("/",(req,res)=>{
 });
 
 //rotas para icorporar arquivos do front end
-app.get("/script",(req,res)=>{res.sendFile(__dirname+'/js/script.js');});
-app.get("/style",(req,res)=>{ res.sendFile(__dirname+'/css/style.css');});
+/*app.get("/script",(req,res)=>{res.sendFile(__dirname+'/js/script.js');});
+  app.get("/style",(req,res)=>{ res.sendFile(__dirname+'/css/style.css');});
+  */
 
 app.get("/inserir",(req,res)=>{ res.render("inserir");});
+
+app.get("/select/:id?",(req,res)=>{ 
+    if(!req.params.id){
+        sql.query("select * from user order by id asc",function(err,results,fields){
+            res.render('select',{data: results});
+        });
+    }else{
+        sql.query("select * from user where id=? order by id asc",[req.params.id],function(err,results,fields){
+            res.render('select',{data: results});
+        });
+    }
+});
     //inserindo dados 
 app.post("/controllerForm",urlencodeParser,(req,res)=>{ 
         //query
@@ -41,8 +58,24 @@ app.post("/controllerForm",urlencodeParser,(req,res)=>{
    res.render("controllerForm",{name:req.body.name});
     
 });
+    //deletando dado
+app.get("/deletar/:id",(req,res)=>{
+     sql.query("delete from user where id=?",[req.params.id]);
+    res.render('deletar');
+});
 
-    
+app.get("/update/:id",(req,res)=>{
+    sql.query("select * from user where id=?",[req.params.id],(err,results,fields)=>{
+     res.render('update',{id: req.params.id,name: results[0].name,age:results[0].age});
+    });
+
+});
+
+app.post("/controllerUpdate",urlencodeParser,(req,res)=>{
+    sql.query("update user set name=?,age=? where id=?",[req.body.name,req.body.age,req.body.id]);
+    res.render('controllerUpdate');
+});
+
 
 
 //Strart server 
