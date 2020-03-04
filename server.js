@@ -31,6 +31,7 @@ app.get("/",(req,res)=>{
     //res.sendFile(__dirname+"/test.html") reidenizando um arquivo html
    //console.log(req.params.id);pegando e passando parâmetros id?
     res.render('index');//passando parametros para a pagina 
+    
 });
 
 //rotas para icorporar arquivos do front end
